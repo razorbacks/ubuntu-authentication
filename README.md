@@ -4,33 +4,24 @@ Install dependencies:
 
     sudo apt install -y ldap-utils libpam-ldap libnss-ldap nscd
 
-Edit 3 files:
+Backup default configuration files:
 
-1. `/etc/ldap/ldap.conf`
+    sudo mv /etc/ldap.conf /etc/ldap.conf.bak
+    sudo mv /etc/ldap/ldap.conf /etc/ldap/ldap.conf.bak
 
-  Add these lines:
-
-      URI ldaps://ds.uark.edu/
-      BASE ou=people,dc=uark,dc=edu
-      tls_cacertfile /etc/ssl/certs/ca-certificates.crt
-
-2. `/etc/ldap.conf`
-
-  Exactly the same as step 1:
+Create `/etc/ldap.conf` and `/etc/ldap/ldap.conf` with these contents:
 
       URI ldaps://ds.uark.edu/
       BASE ou=people,dc=uark,dc=edu
       tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
-3. `/etc/nsswitch.conf`
-
-  Edit these 3 lines:
+Edit `/etc/nsswitch.conf` and change these 3 lines:
 
       passwd:         compat
       group:          compat
       shadow:         compat
 
-  Add `ldap` to the end like this:
+by adding `ldap` to the end like this:
 
       passwd:         compat ldap
       group:          compat ldap
