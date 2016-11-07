@@ -1,7 +1,4 @@
-Instructions for setting up integrated authentication via LDAP for Ubuntu.
-
-> **NOTE:** This uses the insecure ldap protocol instead of secure ldaps,
-so passwords are transmitted across the network in plain text.
+Instructions for setting up integrated authentication via LDAP for Ubuntu 16.04.
 
 Install dependencies:
 
@@ -13,17 +10,17 @@ Edit 3 files:
 
   Add these lines:
 
-      URI ldap://ds.uark.edu/
+      URI ldaps://ds.uark.edu/
       BASE ou=people,dc=uark,dc=edu
-      TLS_CACERTDIR /etc/openldap/cacerts
+      tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 2. `/etc/ldap.conf`
 
   Exactly the same as step 1:
 
-      URI ldap://ds.uark.edu/
+      URI ldaps://ds.uark.edu/
       BASE ou=people,dc=uark,dc=edu
-      TLS_CACERTDIR /etc/openldap/cacerts
+      tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 3. `/etc/nsswitch.conf`
 
