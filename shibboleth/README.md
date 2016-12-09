@@ -55,9 +55,7 @@ server. Attach the downloaded Metadata to the ticket.
 
 Once entered into IdP servers, the change takes about 15 minutes to propagate.
 
-Visit `https://{YOUR HOSTNAME}/secure` again, and you should get the login page.
-
-If all works, edit `/etc/shibboleth/shibboleth2.xml` and change line 46 from:
+Edit `/etc/shibboleth/shibboleth2.xml` and change line 46 from:
 
     <SSO entityID="https://acmex.uark.edu/idp/shibboleth">
 
@@ -69,6 +67,8 @@ Restart the services.
 
     sudo service shibd restart
     sudo service apache2 restart
+
+Visit `https://{YOUR HOSTNAME}/secure` again, and you should get the login page.
 
 [1]:https://shibboleth.net/products/service-provider.html
 [2]:https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig
