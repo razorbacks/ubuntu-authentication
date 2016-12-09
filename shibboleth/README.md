@@ -74,6 +74,30 @@ Restart the services.
 
 Visit `https://{YOUR HOSTNAME}/secure` again, and you should get the login page.
 
+## Additional Virtual Hosts
+
+For each domain name, you’ll need to set up an `ApplicationOverride` in
+`/etc/shibboleth/shibboleth2.xml` ***at the end*** of the `ApplicationDefaults` tag.
+It requires an application `id` unique to your server, and an `entityId` unique
+to the IdP. By convention, this is the virtual host name with `/shibboleth`
+appended to the end. For example:
+
+```xml
+<ApplicationOverride id="example" entityID="https://example.uark.edu/shibboleth"/>
+```
+
+Again you must generate the Metadata for each virtual host by visiting
+`https://{YOUR*OTHER*HOSTNAME}/Shibboleth.sso/Metadata` and then submitting that
+in an [AskIT ticket][6] to be added to the IdP server.
+
+Then you must declare the override `applicationID` in the document root of the
+virtual host.
+
+This must be in a [`<Directory /path/to/site/root>`][4] or a [`<Location />`][5]
+tag or in an `.htaccess` in the root folder of the site.
+
+    ShibRequestSetting applicationID example
+
 [1]:https://shibboleth.net/products/service-provider.html
 [2]:https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig
 [3]:https://httpd.apache.org/docs/current/mod/core.html#allowoverride
