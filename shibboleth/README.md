@@ -57,11 +57,15 @@ Once entered into IdP servers, the change takes about 15 minutes to propagate.
 
 Edit `/etc/shibboleth/shibboleth2.xml` and change line 46 from:
 
-    <SSO entityID="https://acmex.uark.edu/idp/shibboleth">
+```xml
+<SSO entityID="https://acmex.uark.edu/idp/shibboleth">
+```
 
 to:
 
-    <SSO entityID="https://idp.uark.edu/idp/shibboleth">
+```xml
+<SSO entityID="https://idp.uark.edu/idp/shibboleth">
+```
 
 Restart the services.
 
