@@ -98,6 +98,11 @@ tag or in an `.htaccess` in the root folder of the site.
 
     ShibRequestSetting applicationID example
 
+Restart the services.
+
+    sudo service shibd restart
+    sudo service apache2 restart
+
 [1]:https://shibboleth.net/products/service-provider.html
 [2]:https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig
 [3]:https://httpd.apache.org/docs/current/mod/core.html#allowoverride
