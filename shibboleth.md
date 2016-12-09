@@ -1,4 +1,4 @@
-# Shibboleth Single Sign On
+# Shibboleth Single Sign On for Apache 2.4
 
 Before you begin, make sure you have a valid SSL certificate installed
 on the web server. You can [create a certificate signing request][7] and then
@@ -9,6 +9,14 @@ on the web server. You can [create a certificate signing request][7] and then
 Install the [service provider][1] and [Apache web server module][2].
 
     sudo apt install shibboleth-sp2-schemas libapache2-mod-shib2
+
+[Download the script `keygen.sh`][8] and make it executable.
+
+    chmod +x keygen.sh
+
+Run the script with `sudo` to make the certificate/key pair for `_shibd` user.
+
+    sudo ./keygen.sh -o /etc/shibboleth -u _shibd -g _shibd
 
 Open https://itsforms.uark.edu/shib2xml and under `Entity id` type
 `https://{YOUR HOSTNAME}/shibboleth` and click `Generate`
@@ -34,7 +42,7 @@ same contents.
 
 Start/restart the services.
 
-    sudo service shibd start
+    sudo service shibd restart
     sudo service apache2 restart
 
 In browser, verify `https://{YOUR HOSTNAME}/secure` redirects to `acmex.uark.edu`
@@ -69,3 +77,4 @@ Restart the services.
 [5]:https://httpd.apache.org/docs/current/mod/core.html#location
 [6]:https://askit.uark.edu/
 [7]:https://github.com/jpuck/openssl.csr.bash
+[8]:./keygen.sh
