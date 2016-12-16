@@ -6,7 +6,8 @@ on the web server. You can [create a certificate signing request][7] and then
 
 `shibd` needs to download the IdP's metadata in order to start up correctly,
 so make sure there is no firewall blocking traffic from your server to
-https://federation.uark.edu/ over port 443
+https://federation.uark.edu otherwise will need to [request a firewall policy][9]
+for TCP port 443.
 
 ------------------------------------------------------------------------------
 
@@ -115,3 +116,4 @@ Restart the services.
 [6]:https://askit.uark.edu/
 [7]:https://github.com/jpuck/openssl.csr.bash
 [8]:./keygen.sh
+[9]:https://askit.uark.edu/request/firewall/index.php
