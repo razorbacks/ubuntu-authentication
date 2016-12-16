@@ -4,9 +4,9 @@ Before you begin, make sure you have a valid SSL certificate installed
 on the web server. You can [create a certificate signing request][7] and then
 [create an AskIT ticket][6] pasting in the CSR to get one.
 
-`shibd` needs to download the IdP's metadata in order to start up correctly,
+`shibd` needs to download the IdP (Identity Provider) metadata in order to start up correctly,
 so make sure there is no firewall blocking traffic from your server to
-https://federation.uark.edu otherwise will need to [request a firewall policy][9]
+https://federation.uark.edu otherwise you will need to [request a policy][9]
 for TCP port 443.
 
 ------------------------------------------------------------------------------
@@ -24,14 +24,19 @@ Run the script with `sudo` to make the certificate/key pair for `_shibd` user.
     sudo ./keygen.sh -o /etc/shibboleth -u _shibd -g _shibd
 
 Open https://itsforms.uark.edu/shib2xml and under `Entity id` type
-`https://{YOUR HOSTNAME}/shibboleth` and click `Generate`
+`https://{YOUR HOSTNAME}/shibboleth` and click <kbd>Generate</kbd>
 
 Replace `/etc/shibboleth/shibboleth2.xml` with generated file.
 
-Note that by default, shib will use the TEST IdP (acmex.uark.edu)
+**Note** that by default, shib will use the TEST IdP (acmex.uark.edu).
 
-In `/etc/shibboleth/attribute-map.xml` Uncomment "common LDAP attributes",
-roughly lines 88 to 142.
+[Uncomment][10] the "Examples of LDAP-based attributes" in `/etc/shibboleth/attribute-map.xml`
+on roughly lines 88 to 142 by deleting the enclosing lines that contain `<!--` and `-->` around
+the `Attribute` tags, such as:
+
+```xml
+<Attribute name="urn:mace:dir:attribute-def:cn" id="cn"/>
+```
 
 Create a folder in your web server directory root called `secure`
 Inside you can create an `.htaccess` file with these contents:
@@ -60,7 +65,8 @@ server. Attach the downloaded Metadata to the ticket.
 
 Once entered into IdP servers, the change takes about 15 minutes to propagate.
 
-Edit `/etc/shibboleth/shibboleth2.xml` and change line 46 from:
+Edit `/etc/shibboleth/shibboleth2.xml` to use the production IdP server instead
+of the test server by changing line 46 from:
 
 ```xml
 <SSO entityID="https://acmex.uark.edu/idp/shibboleth">
@@ -117,3 +123,4 @@ Restart the services.
 [7]:https://github.com/jpuck/openssl.csr.bash
 [8]:./keygen.sh
 [9]:https://askit.uark.edu/request/firewall/index.php
+[10]:http://stackoverflow.com/a/2757409/4233593
