@@ -4,6 +4,10 @@ Before you begin, make sure you have a valid SSL certificate installed
 on the web server. You can [create a certificate signing request][7] and then
 [create an AskIT ticket][6] pasting in the CSR to get one.
 
+`shibd` needs to download the IdP's metadata in order to start up correctly,
+so make sure there is no firewall blocking traffic from your server to
+https://federation.uark.edu/ over port 443
+
 ------------------------------------------------------------------------------
 
 Install the [service provider][1] and [Apache web server module][2].
