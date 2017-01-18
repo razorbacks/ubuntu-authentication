@@ -1,6 +1,6 @@
 # LDAPS authentication with Wordpress
 
-Tested on Wordpress 4.7-beta4 with Ubuntu 16.04.1 LTS
+Tested on Wordpress 4.7.1 with Ubuntu 16.04.1 LTS
 
 This uses [a wordpress plugin][0] by [clifgriffin/simple-ldap-login][1]
 
