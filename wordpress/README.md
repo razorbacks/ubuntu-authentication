@@ -8,6 +8,14 @@ Requires `php-ldap`
 
     sudo apt install php-ldap
 
+This should create a file called `/etc/ldap/ldap.conf` in which an environment variable is set
+pointing to the system trusted SSL certificate bundle. If you have already this file from a different
+installation configuration, then you'll need to ensure the variable is set. You can also set that
+to a different path if you'd like to use a special certificate, like a self-signed one.
+
+    # TLS certificates (needed for GnuTLS)
+    TLS_CACERT	/etc/ssl/certs/ca-certificates.crt
+
 Download the master branch or latest release ([*greater* than 1.6.0][2]) to your wordpress plugins folder
 
     cd wp-content/plugins/
