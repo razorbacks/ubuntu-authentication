@@ -1,4 +1,6 @@
 Instructions for setting up integrated authentication via LDAP for Ubuntu 16.04.
+This will allow users to login to the server itself via SSH or console using their
+UARK GACL credentials.
 
 # Installation
 
