@@ -114,6 +114,36 @@ Restart the services.
     sudo service shibd restart
     sudo service apache2 restart
 
+## Active Directory Groups
+
+Aside from `require valid-user` the real power lies in leveraging active directory
+security groups for access control. In shibboleth, these are referred to as "entitlements"
+and you can take a look at them by reading what's been populated into the php `$_SERVER`
+variable after login.
+
+```php
+<?php print_r($_SERVER);
+```
+
+For example, if you wanted to limit access to a location for just the members of `WCOB-JazzUsers`
+then your `.htaccess` require directive would look like this:
+
+    AuthType shibboleth
+    ShibRequestSetting requireSession 1
+    Require shib-attr entitlement "urn:mace:uark.edu:ADGroups:Walton College:Security Groups:WCOB-JazzUsers"
+
+## Logging Out
+
+To logout of the IdP server, the URL is https://idp.uark.edu/idp/exit.jsp
+
+So to logout of your server, the url would be:
+
+    https://{YOUR HOSTNAME}/Shibboleth.sso/Logout?return=https%3A%2F%2Fidp.uark.edu%2Fidp%2Fexit.jsp
+
+Return parameter being url encoded. This will destroy their session on the SP,
+then send them to the IdP and destroy their session there. They may, however,
+still have active sessions on other SPs that will not be destroyed.
+
 [1]:https://shibboleth.net/products/service-provider.html
 [2]:https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig
 [3]:https://httpd.apache.org/docs/current/mod/core.html#allowoverride
