@@ -17,6 +17,9 @@ Create `/etc/ldap.conf` and `/etc/ldap/ldap.conf` with these contents:
     BASE ou=people,dc=uark,dc=edu
     tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
+    # TLS certificates (needed for GnuTLS)
+    TLS_CACERT	/etc/ssl/certs/ca-certificates.crt
+
 Edit `/etc/nsswitch.conf` and change these 3 lines:
 
       passwd:         compat
