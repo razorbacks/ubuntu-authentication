@@ -144,6 +144,23 @@ Return parameter being url encoded. This will destroy their session on the SP,
 then send them to the IdP and destroy their session there. They may, however,
 still have active sessions on other SPs that will not be destroyed.
 
+## Notes on URL Rewriting
+
+If you're using an application router to handle requests, as in Wordpress, Laravel, etc.
+then you'll probably have some rewrite rules to send all non-existent files to your router page. e.g.
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+ 
+In some strange cases, you may find that this rewrite rule interferes with Shibboleth's locations.
+A fix would be to add the condition to not rewrite paths to Shibboleth.
+
+    RewriteCond %{REQUEST_URI} !^/Shibboleth [NC]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
 [1]:https://shibboleth.net/products/service-provider.html
 [2]:https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig
 [3]:https://httpd.apache.org/docs/current/mod/core.html#allowoverride
