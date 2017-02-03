@@ -144,6 +144,29 @@ Return parameter being url encoded. This will destroy their session on the SP,
 then send them to the IdP and destroy their session there. They may, however,
 still have active sessions on other SPs that will not be destroyed.
 
+## Partial Security and Lazy Loading
+
+Sometimes you want your main site available to the public, but secure a sub-location like `/secure`
+This is called lazy shib. In the root of your site, you will need to require shibboleth without a session.
+
+```xml
+<Location />
+ AuthType Shibboleth
+ ShibRequestSetting requireSession false
+ Require shibboleth
+</Location>
+```
+
+In the secure location, require the session and any other constraints, such as a specific user or entitlement.
+
+```xml
+<Location /secure>
+ AuthType Shibboleth
+ ShibRequestSetting requireSession true
+ Require valid-user
+</Location>
+```
+
 ## Notes on URL Rewriting
 
 If you're using an application router to handle requests, as in Wordpress, Laravel, etc.
