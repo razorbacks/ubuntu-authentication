@@ -144,10 +144,12 @@ Return parameter being url encoded. This will destroy their session on the SP,
 then send them to the IdP and destroy their session there. They may, however,
 still have active sessions on other SPs that will not be destroyed.
 
-## Partial Security and Lazy Loading
+## Lazy Loading
 
-Sometimes you want your main site available to the public, but secure a sub-location like `/secure`
-This is called lazy shib. In the root of your site, you will need to require shibboleth without a session.
+Sometimes you want locations available to the public with an optional login.
+In other words, you display the same page to everyone, but those who are logged in might see additional
+content, such as their username displayed in the navigation menu.
+This is called lazy shib. In the root of your site, you will need to `requireSession false` and `require shibboleth`
 
 ```xml
 <Location />
@@ -157,7 +159,8 @@ This is called lazy shib. In the root of your site, you will need to require shi
 </Location>
 ```
 
-In the secure location, require the session and any other constraints, such as a specific user or entitlement.
+You may still secure other locations normally by requiring the session and any other constraints,
+such as a specific user or entitlement.
 
 ```xml
 <Location /secure>
