@@ -1,6 +1,6 @@
 # LDAPS authentication with Wordpress
 
-Tested on Wordpress 4.7.1 with Ubuntu 16.04.1 LTS
+Tested on Wordpress 4.7.3 with Ubuntu 16.04.1 LTS
 
 This uses [a wordpress plugin][0] by [clifgriffin/simple-ldap-login][1]
 
@@ -24,6 +24,12 @@ Download the master branch or latest release ([*greater* than 1.6.0][2]) to your
 Activate the plugin through the 'Plugins' menu in WordPress.
 
 Update the settings by going to 'Settings' -> 'Simple LDAP Login'
+
+| Attribute            | Value                    |
+| ---------------------|--------------------------|
+| Account Suffix       | @uark.edu                |
+| Base DN              | ou=people,dc=uark,dc=edu |
+| Domain Controller(s) | ldaps://ds.uark.edu      |
 
 ![basic settings][3]
 
