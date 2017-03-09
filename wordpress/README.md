@@ -35,6 +35,10 @@ Update the settings by going to 'Settings' -> 'Simple LDAP Login'
 
 ![advanced settings][4]
 
+Now you should be able to login on the normal login page using *just your username*.
+If you use `username@uark.edu` then it will not work. Simply login with `username`
+and your UARK password.
+
 [0]:https://wordpress.org/plugins/simple-ldap-login/
 [1]:https://github.com/clifgriffin/simple-ldap-login
 [2]:https://github.com/clifgriffin/simple-ldap-login/issues/36
