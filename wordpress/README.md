@@ -9,7 +9,7 @@ Requires `php-ldap`
     sudo apt install php-ldap
 
 This should create a file called `/etc/ldap/ldap.conf` in which an environment variable is set
-pointing to the system trusted SSL certificate bundle. If you have already this file from a different
+pointing to the system trusted SSL certificate bundle. If you already have this file from a different
 installation configuration, then you'll need to ensure the variable is set. You can also set that
 to a different path if you'd like to use a special certificate, like a self-signed one.
 
