@@ -122,8 +122,10 @@ and you can take a look at them by reading what's been populated into the php `$
 variable after login.
 
 ```php
-<?php print_r($_SERVER);
+<?php print_r($_SERVER['entitlement']);
 ```
+
+Here is a more [refined snippet][apache-print-entitlements].
 
 For example, if you wanted to limit access to a location for just the members of `WCOB-JazzUsers`
 then your `.htaccess` require directive would look like this:
@@ -197,3 +199,4 @@ A fix would be to add the condition to not rewrite paths to Shibboleth.
 [8]:./keygen.sh
 [9]:https://askit.uark.edu/request/firewall/index.php
 [10]:http://stackoverflow.com/a/2757409/4233593
+[apache-print-entitlements]:https://github.com/razorbacks/print-apache-shibboleth-entitlements
