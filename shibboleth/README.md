@@ -181,8 +181,12 @@ then you'll probably have some rewrite rules to send all non-existent files to y
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
  
-In some strange cases, you may find that this rewrite rule interferes with Shibboleth's locations.
-A fix would be to add the condition to not rewrite paths to Shibboleth.
+In some cases, you may find that this rewrite rule interferes with Shibboleth's locations.
+The solution is to place the Shibboleth directives in a higher precedent block than these.
+For example, `Location` takes precedence over `Directory` so include a `Location` block in
+the virtual host configuration file with the Shibboleth directives and place the redirects
+in the `Directory` block.
+Alternatively, exclude the condition to rewrite paths for Shibboleth.
 
     RewriteCond %{REQUEST_URI} !^/Shibboleth [NC]
     RewriteCond %{REQUEST_FILENAME} !-d
