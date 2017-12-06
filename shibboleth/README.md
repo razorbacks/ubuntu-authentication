@@ -95,9 +95,12 @@ Inside you can create an `.htaccess` file with these contents:
     Require valid-user
 
 **Note** you must have enabled [`AllowOverride AuthConfig` or `AllowOverride All`][3]
-in the primary virtual host configuration file. Alternatively, you can create a
-[`Directory`][4] or a [`Location`][5] tag in the configuration file with the
-same contents.
+in the primary virtual host configuration file.
+
+Alternatively, you can create a [`Directory`][4] or a [`Location`][5] tag
+in the configuration file with the same contents.
+This is preferred for performance reasons because Apache will not need to
+parse the `.htaccess` file on every request.
 
 Start/restart the services.
 
