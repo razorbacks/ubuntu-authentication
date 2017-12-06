@@ -246,7 +246,7 @@ the virtual host configuration file with the Shibboleth directives and place the
 in the `Directory` block.
 Alternatively, exclude the condition to rewrite paths for Shibboleth.
 
-    RewriteCond %{REQUEST_URI} !^/Shibboleth [NC]
+    RewriteCond %{REQUEST_URI} !^/Shibboleth
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
