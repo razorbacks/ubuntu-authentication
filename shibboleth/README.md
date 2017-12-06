@@ -2,12 +2,14 @@
 
 Before you begin, make sure you have a valid SSL certificate installed
 on the web server. You can [create a certificate signing request][7] and then
-[create an AskIT ticket][6] pasting in the CSR to get one.
+[create a Cherwell ticket][cherwell] pasting in the CSR to get one.
 
 `shibd` needs to download the IdP (Identity Provider) metadata in order to start up correctly,
 so make sure there is no firewall blocking traffic from your server to
-https://federation.uark.edu otherwise you will need to [request a policy][9]
-for TCP port 443.
+https://federation.uark.edu otherwise you will need to [request a policy][firewall-policy-form]
+for TCP port 443. You can check the firewall with [nmap][nmap].
+
+    nmap -Pn -p 443 federation.uark.edu
 
 ------------------------------------------------------------------------------
 
@@ -60,7 +62,7 @@ In browser, verify `https://{YOUR HOSTNAME}/secure` redirects to `acmex.uark.edu
 
 Download the Metadata from `https://{YOUR HOSTNAME}/Shibboleth.sso/Metadata`
 
-[Create an AskIT ticket][6] requesting your site Metadata be added to the IdP
+[Create a Cherwell ticket][cherwell] requesting your site Metadata be added to the IdP
 server. Attach the downloaded Metadata to the ticket.
 
 Once entered into IdP servers, the change takes about 15 minutes to propagate.
@@ -99,7 +101,7 @@ appended to the end. For example:
 
 Again you must generate the Metadata for each virtual host by visiting
 `https://{YOUR*OTHER*HOSTNAME}/Shibboleth.sso/Metadata` and then submitting that
-in an [AskIT ticket][6] to be added to the IdP server.
+in a [Cherwell ticket][cherwell] to be added to the IdP server.
 
 Then you must declare the override `applicationID` in the document root of the
 virtual host.
@@ -198,9 +200,10 @@ Alternatively, exclude the condition to rewrite paths for Shibboleth.
 [3]:https://httpd.apache.org/docs/current/mod/core.html#allowoverride
 [4]:https://httpd.apache.org/docs/current/mod/core.html#directory
 [5]:https://httpd.apache.org/docs/current/mod/core.html#location
-[6]:https://askit.uark.edu/
+[cherwell]:https://help.uark.edu
 [7]:https://github.com/jpuck/openssl.csr.bash
 [8]:./keygen.sh
-[9]:https://askit.uark.edu/request/firewall/index.php
+[firewall-policy-form]:https://help.uark.edu/CherwellPortal/ITHelpPortal/Command/OneStep.LaunchOneStep?Name=Firewall%20Request
 [10]:http://stackoverflow.com/a/2757409/4233593
 [apache-print-entitlements]:https://github.com/razorbacks/print-apache-shibboleth-entitlements
+[nmap]:https://nmap.org
