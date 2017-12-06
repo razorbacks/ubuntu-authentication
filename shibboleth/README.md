@@ -205,6 +205,11 @@ then `JonUser` must be an explicit member of `BarGroup` to show that entitlement
 This is a significant limitation in lieu of common Windows access control processes.
 Hopefully, support for recursive group memberships will be implemented in the future.
 
+**Note** the distinction between Active Directory security groups and distribution groups.
+Prior to the Office365 cloud migration, both memberships were available as entitlements.
+However, now only on-premises security groups will be populated as entitlements.
+Do not use distribution groups for authorization.
+
 ### Logging Out
 
 To logout of the IdP server, the URL is https://idp.uark.edu/idp/exit.jsp
