@@ -247,7 +247,8 @@ The solution is to place the Shibboleth directives in a higher precedent block t
 For example, `Location` takes precedence over `Directory` so include a `Location` block in
 the virtual host configuration file with the Shibboleth directives and place the redirects
 in the `Directory` block.
-Alternatively, exclude the condition to rewrite paths for Shibboleth.
+
+Alternatively, exclude the condition to rewrite paths for Shibboleth. e.g.
 
     RewriteCond %{REQUEST_URI} !^/Shibboleth
     RewriteCond %{REQUEST_FILENAME} !-d
