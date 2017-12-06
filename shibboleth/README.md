@@ -1,21 +1,62 @@
-# Shibboleth Single Sign On for Apache 2.4
+# Shibboleth Installation
+
+These instructions show you how to setup Shibboleth
+on an Ubuntu server running Apache 2.4
+
+## Table of Contents
+
+* [Prerequisites](#prerequisites)
+    * [Apache SSL](#apache-ssl)
+    * [Federation Firewall](#federation-firewall)
+* [Installation](#installation)
+    * Service Provider
+    * Apache Module
+* [Configuration](#configuration)
+    * [Shibboleth SSL](#shibboleth-ssl)
+    * [Generate XML](#generate-xml)
+    * [Virtual Host](#virtual-host)
+    * [Metadata](#metadata)
+    * [Production IdP](#production-idp)
+* [Addendum](#addendum)
+    * [Additional Hosts](#additional-virtual-hosts)
+    * [Active Directory Groups](#active-directory-groups)
+    * [Logging Out](#logging-out)
+    * [Lazy Loading](#lazy-loading)
+    * [URL Rewriting](#notes-on-url-rewriting)
+
+## Prerequisites
+
+This document assumes you are already running Ubuntu 16.04 with Apache 2.4
+
+### Apache SSL
 
 Before you begin, make sure you have a valid SSL certificate installed
 on the web server. You can [create a certificate signing request][7] and then
 [create a Cherwell ticket][cherwell] pasting in the CSR to get one.
 
+### Federation Firewall
+
 `shibd` needs to download the IdP (Identity Provider) metadata in order to start up correctly,
 so make sure there is no firewall blocking traffic from your server to
 https://federation.uark.edu otherwise you will need to [request a policy][firewall-policy-form]
-for TCP port 443. You can check the firewall with [nmap][nmap].
+for TCP port 443.
 
+You can check the firewall with [nmap][nmap].
+
+    sudo apt-get install nmap
     nmap -Pn -p 443 federation.uark.edu
 
-------------------------------------------------------------------------------
+## Installation
 
 Install the [service provider][1] and [Apache web server module][2].
 
     sudo apt install shibboleth-sp2-schemas libapache2-mod-shib2
+
+## Configuration
+
+There are a number of steps required to configure Shibboleth.
+
+### Shibboleth SSL
 
 [Download the script `keygen.sh`][8] and make it executable.
 
@@ -23,7 +64,11 @@ Install the [service provider][1] and [Apache web server module][2].
 
 Run the script with `sudo` to make the certificate/key pair for `_shibd` user.
 
-    sudo ./keygen.sh -o /etc/shibboleth -u _shibd -g _shibd
+```
+sudo ./keygen.sh -o /etc/shibboleth -u _shibd -g _shibd
+```
+
+### Generate XML
 
 Open https://itsforms.uark.edu/shib2xml and under `Entity id` type
 `https://{YOUR HOSTNAME}/shibboleth` and click <kbd>Generate</kbd>
@@ -39,6 +84,8 @@ the `Attribute` tags, such as:
 ```xml
 <Attribute name="urn:mace:dir:attribute-def:cn" id="cn"/>
 ```
+
+### Virtual Host
 
 Create a folder in your web server directory root called `secure`
 Inside you can create an `.htaccess` file with these contents:
@@ -60,12 +107,16 @@ Start/restart the services.
 In browser, verify `https://{YOUR HOSTNAME}/secure` redirects to `acmex.uark.edu`
 (you will receive an error page at this point).
 
+### Metadata
+
 Download the Metadata from `https://{YOUR HOSTNAME}/Shibboleth.sso/Metadata`
 
 [Create a Cherwell ticket][cherwell] requesting your site Metadata be added to the IdP
 server. Attach the downloaded Metadata to the ticket.
 
 Once entered into IdP servers, the change takes about 15 minutes to propagate.
+
+### Production IdP
 
 Edit `/etc/shibboleth/shibboleth2.xml` to use the production IdP server instead
 of the test server by changing line 46 from:
@@ -87,7 +138,12 @@ Restart the services.
 
 Visit `https://{YOUR HOSTNAME}/secure` again, and you should get the login page.
 
-## Additional Virtual Hosts
+## Addendum
+
+A minimally viable installation should be running at this point.
+The following sections cover additional common configurations.
+
+### Additional Virtual Hosts
 
 For each domain name, you’ll need to set up an `ApplicationOverride` in
 `/etc/shibboleth/shibboleth2.xml` ***at the end*** of the `ApplicationDefaults` tag.
@@ -116,7 +172,7 @@ Restart the services.
     sudo service shibd restart
     sudo service apache2 restart
 
-## Active Directory Groups
+### Active Directory Groups
 
 Aside from `require valid-user` the real power lies in leveraging active directory
 security groups for access control. In shibboleth, these are referred to as "entitlements"
@@ -136,7 +192,7 @@ then your `.htaccess` require directive would look like this:
     ShibRequestSetting requireSession 1
     Require shib-attr entitlement "urn:mace:uark.edu:ADGroups:Walton College:Security Groups:WCOB-JazzUsers"
 
-## Logging Out
+### Logging Out
 
 To logout of the IdP server, the URL is https://idp.uark.edu/idp/exit.jsp
 
@@ -148,7 +204,7 @@ Return parameter being url encoded. This will destroy their session on the SP,
 then send them to the IdP and destroy their session there. They may, however,
 still have active sessions on other SPs that will not be destroyed.
 
-## Lazy Loading
+### Lazy Loading
 
 Sometimes you want locations available to the public with an optional login.
 In other words, you display the same page to everyone, but those who are logged in might see additional
@@ -174,7 +230,7 @@ such as a specific user or entitlement.
 </Location>
 ```
 
-## Notes on URL Rewriting
+### Notes on URL Rewriting
 
 If you're using an application router to handle requests, as in Wordpress, Laravel, etc.
 then you'll probably have some rewrite rules to send all non-existent files to your router page. e.g.
@@ -182,7 +238,7 @@ then you'll probably have some rewrite rules to send all non-existent files to y
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
- 
+
 In some cases, you may find that this rewrite rule interferes with Shibboleth's locations.
 The solution is to place the Shibboleth directives in a higher precedent block than these.
 For example, `Location` takes precedence over `Directory` so include a `Location` block in
