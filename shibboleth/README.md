@@ -195,6 +195,16 @@ then your `.htaccess` require directive would look like this:
     ShibRequestSetting requireSession 1
     Require shib-attr entitlement "urn:mace:uark.edu:ADGroups:Walton College:Security Groups:WCOB-JazzUsers"
 
+**Note** that currently Shibboleth only populates explicit group memberships.
+Therefore you cannot enforce authorization via effective group membership rollups.
+For example, if `JonUser` is a member of `FooGroup` and `FooGroup` is a member of `BarGroup`
+then `JonUser` will only have the entitlement `FooGroup` and there is no way to
+verify that `JonUser` is an effective member of `BarGroup` by virtue of rollups.
+If you want to authorize access to a resource by the membership in `BarGroup`
+then `JonUser` must be an explicit member of `BarGroup` to show that entitlement.
+This is a significant limitation in lieu of common Windows access control processes.
+Hopefully, support for recursive group memberships will be implemented in the future.
+
 ### Logging Out
 
 To logout of the IdP server, the URL is https://idp.uark.edu/idp/exit.jsp
